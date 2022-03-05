@@ -1,10 +1,8 @@
-from collections import defaultdict
-from random import shuffle
 from typing import Tuple, Union
 import matplotlib.pyplot as plt
+import numpy as np
 
 from problems.problem import Problem
-import numpy as np
 
 
 class NQueens(Problem):
@@ -49,19 +47,8 @@ class NQueens(Problem):
         for i, j in enumerate(state):
             board[i][j] = 1
 
-        row_labels = range(self.__n)
-        col_labels = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+        row_labels = col_labels = range(1, self.__n + 1)
         plt.matshow(board)
         plt.xticks(range(self.__n), col_labels)
         plt.yticks(range(self.__n), row_labels)
         plt.show()
-        # n = self.__n
-        # for i in state:
-        #     line = ''
-        #     for j in range(n):
-        #         line += 'X' if j == i else '_'
-        #     print(line)
-
-
-if __name__ == '__main__':
-    print(NQueens(4).evaluate((2, 0, 3, 1)))
