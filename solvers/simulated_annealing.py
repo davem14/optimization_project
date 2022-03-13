@@ -14,7 +14,7 @@ class SimulatedAnnealing(Solver):
         self.cooling_factor = cooling_factor
 
     def is_preferred_state(self, state, diff: float) -> bool:
-        return diff > 0 or rand() < exp(-diff / self.temp)
+        return diff > 0 or rand() < exp(diff / self.temp)
 
     def state_changed(self):
         self.temp *= self.cooling_factor
