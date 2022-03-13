@@ -1,3 +1,7 @@
+from math import exp
+
+from numpy.random import rand, randn
+
 from problems import Problem
 from solvers import Solver
 
@@ -5,13 +9,15 @@ from solvers import Solver
 class SimulatedAnnealing(Solver):
     def __init__(self, problem: Problem, init_state: tuple):
         super().__init__(problem, init_state)
-        self.temp = 1
+        self.iteration = 1
 
-    def is_preferred_state(self, val) -> bool:
-        pass
+    def is_preferred_state(self, state, diff: float) -> bool:
+        temp = 1 / float(self.iteration)
+        return diff > 0 or rand() < exp(diff / temp)
 
     def state_changed(self):
-        pass
+        self.iteration += 1
+
 
 
     # simulated annealing algorithm
@@ -43,7 +49,7 @@ class SimulatedAnnealing(Solver):
             # calculate metropolis acceptance criterion
             metropolis = exp(-diff / t)
             # check if we should keep the new point
-            if diff < 0 or rand() < metropolis:
+            if diff > 0 or rand() < metropolis:
                 # store the new current point
                 curr, curr_eval = candidate, candidate_eval
         return [best, best_eval]
