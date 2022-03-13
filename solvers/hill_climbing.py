@@ -6,4 +6,4 @@ class HillClimbing(Solver):
         pass
 
     def is_preferred_state(self, val) -> bool:
-        return val >= self._values[-1]
+        return val >= 0
