@@ -21,7 +21,7 @@ class Solver(ABC):
             shuffle(neighbors)
             for neighbor in neighbors:
                 neighbor_val = self._problem.evaluate(neighbor)
-                if self.is_preferred_state(neighbor_val - self._values[-1]):
+                if self.is_preferred_state(neighbor, neighbor_val):
                     self._values.append(neighbor_val)
                     self._state = neighbor
                     self.state_changed()
@@ -32,7 +32,7 @@ class Solver(ABC):
             if not changed:
                 return self._state
 
-    def is_preferred_state(self, val) -> bool:
+    def is_preferred_state(self, state, val) -> bool:
         raise NotImplementedError
 
     def state_changed(self):

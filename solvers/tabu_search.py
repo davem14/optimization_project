@@ -1,8 +1,15 @@
+from collections import deque
+
+from problems import Problem
 from solvers import Solver
 
 
 class TabuSearch(Solver):
-    def is_preferred_state(self, val) -> bool:
+    def __init__(self, problem: Problem, init_state: tuple, max_size: int):
+        super().__init__(problem, init_state)
+        self._tabu_list = deque([init_state], max_size)
+
+    def is_preferred_state(self, state, val) -> bool:
         pass
 
     def state_changed(self):
