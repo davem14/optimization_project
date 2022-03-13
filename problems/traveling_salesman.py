@@ -1,5 +1,7 @@
 from typing import Union
 
+from matplotlib import pyplot as plt
+
 from problems.problem import Problem
 
 
@@ -29,3 +31,8 @@ class TravelingSalesman(Problem):
     def opt(self) -> Union[max, min]:
         return min
 
+    def show(self, state):
+        xs, ys = zip(*state + (state[0],))  # create lists of x and y values
+        plt.plot(xs, ys, 'go-')
+        plt.pause(0.01)
+        plt.clf()

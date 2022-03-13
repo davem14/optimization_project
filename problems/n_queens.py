@@ -39,8 +39,7 @@ class NQueens(Problem):
         return q1[0] == q2[0] or q1[1] == q2[1] or q1[0]-q1[1] == q2[0]-q2[1] or q1[0]+q1[1] == q2[0]+q2[1]
 
     def show(self, state):
-        # Make a 9x9 grid...
-        nrows, ncols = 9, 9
+        nrows, ncols = self.__n, self.__n
         board = np.zeros((self.__n, self.__n))
 
         # Reshape things into a 9x9 grid.
@@ -51,4 +50,4 @@ class NQueens(Problem):
         plt.matshow(board)
         plt.xticks(range(self.__n), col_labels)
         plt.yticks(range(self.__n), row_labels)
-        plt.show()
+        plt.pause(0.01)

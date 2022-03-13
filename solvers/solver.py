@@ -1,29 +1,39 @@
+from abc import ABC
 from random import shuffle
 
-from problems.problem import Problem
+import matplotlib.pyplot as plt
+
+from problems import Problem
 
 
-class Solver:
+class Solver(ABC):
     def __init__(self, problem: Problem, init_state: tuple):
-        self.__problem = problem
-        self.__state = init_state
-        self.__values = [problem.evaluate(init_state)]
+        self._problem = problem
+        self._state = init_state
+        self._values = [problem.evaluate(init_state)]
         self._running = True
+        plt.show()
 
     def __call__(self):
-        opt = self.__problem.opt
         while self._running:
             changed = False
-            neighbors = self.__problem.neighbors(self.__state)
+            neighbors = self._problem.neighbors(self._state)
             shuffle(neighbors)
             for neighbor in neighbors:
-                neighbor_val = self.__problem.evaluate(neighbor)
-                if neighbor_val == opt(neighbor_val, self.__values[-1]):
-                    self.__values.append(neighbor_val)
-                    self.__state = neighbor
+                neighbor_val = self._problem.evaluate(neighbor)
+                if self.is_preferred_state(neighbor_val):
+                    self._values.append(neighbor_val)
+                    self._state = neighbor
+                    self.state_changed()
                     changed = True
-                    print(self.__state, neighbor_val)
-                    self.__problem.show(self.__state)
+                    # print(self._state, neighbor_val)
+                    # self._problem.show(self._state)
                     break
             if not changed:
-                return self.__state
+                return self._state
+
+    def is_preferred_state(self, val) -> bool:
+        raise NotImplementedError
+
+    def state_changed(self):
+        raise NotImplementedError
