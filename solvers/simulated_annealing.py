@@ -7,27 +7,28 @@ from solvers import Solver
 
 
 class SimulatedAnnealing(Solver):
-    def __init__(self, problem: Problem, init_state: tuple):
+    def __init__(self, problem: Problem, init_state: tuple, cooling_factor: float = 0.97):
         super().__init__(problem, init_state)
         self.iteration = 1
+        self.temp = 1
+        self.cooling_factor = cooling_factor
 
     def is_preferred_state(self, state, diff: float) -> bool:
-        temp = 1 / float(self.iteration)
-        return diff > 0 or rand() < exp(diff / temp)
+        return diff > 0 or rand() < exp(-diff / self.temp)
 
     def state_changed(self):
-        self.iteration += 1
+        self.temp *= self.cooling_factor
 
 
 
     # simulated annealing algorithm
     # https://machinelearningmastery.com/simulated-annealing-from-scratch-in-python/
     @staticmethod
-    def simulated_annealing(objective, bounds, n_iterations, step_size, temp):
+    def simulated_annealing(initial_state, evaluation, bounds, n_iterations, step_size, temp):
         # generate an initial point
-        best = bounds[:, 0] + rand(len(bounds)) * (bounds[:, 1] - bounds[:, 0])
+        best = initial_state
         # evaluate the initial point
-        best_eval = objective(best)
+        best_eval = evaluation(best)
         # current working solution
         curr, curr_eval = best, best_eval
         # run the algorithm
@@ -35,7 +36,7 @@ class SimulatedAnnealing(Solver):
             # take a step
             candidate = curr + randn(len(bounds)) * step_size
             # evaluate candidate point
-            candidate_eval = objective(candidate)
+            candidate_eval = evaluation(candidate)
             # check for new best solution
             if candidate_eval < best_eval:
                 # store new best point
