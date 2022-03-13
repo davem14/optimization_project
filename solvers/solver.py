@@ -1,5 +1,4 @@
 from abc import ABC
-from random import shuffle
 
 import matplotlib.pyplot as plt
 
@@ -18,7 +17,6 @@ class Solver(ABC):
         while self._running:
             changed = False
             neighbors = self._problem.neighbors(self._state)
-            shuffle(neighbors)
             for neighbor in neighbors:
                 neighbor_val = self._problem.evaluate(neighbor)
                 if self.is_preferred_state(neighbor, self._values[-1] - neighbor_val):
