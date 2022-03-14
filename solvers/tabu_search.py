@@ -5,7 +5,7 @@ from solvers import Solver
 
 
 class TabuSearch(Solver):
-    def __init__(self, problem, init_state, max_iterations: int, tabu_list_size: int, batch_size=inf):
+    def __init__(self, problem, init_state, max_iterations: int = 200, tabu_list_size: int = 500, batch_size=500):
         super().__init__(problem, init_state, batch_size, max_iterations=max_iterations)
         self._tabu_list = deque([init_state], tabu_list_size)
 
