@@ -1,6 +1,6 @@
 from math import exp
 
-from numpy.random import rand, randn
+from numpy.random import rand
 
 from problems import Problem
 from solvers import Solver

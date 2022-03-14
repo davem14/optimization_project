@@ -17,13 +17,13 @@ if __name__ == '__main__':
     # pr = NQueens(n)
     # init = tuple(i for i in range(n))
 
-    for s in [
+    for solver in [
         HillClimbing(pr, init, batch_size=inf),
         SimulatedAnnealing(pr, init, cooling_factor=.9),
         TabuSearch(pr, init, max_iterations=len(init)**2, tabu_list_size=len(init)*10)
     ]:
         t = time.time()
-        solution = s()
+        solution = solver()
         print(pr.evaluate(solution), time.time() - t)
         pr.show(solution)
         input("press enter to exit")
