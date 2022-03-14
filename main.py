@@ -22,7 +22,7 @@ if __name__ == '__main__':
     import matplotlib.pyplot as plt
     from matplotlib import cm
 
-    iterss = [100, 200, 400, 500]
+    iters = [100, 200, 400, 500]
     hoods = [100, 200, 400, 500]
 
     result = [['122', '109', '2343', '220'],
@@ -36,7 +36,7 @@ if __name__ == '__main__':
     fig = plt.figure(figsize=(5, 5), dpi=150)
     ax1 = fig.add_subplot(111, projection='3d')
 
-    xlabels = np.array(iterss)
+    xlabels = np.array(iters)
     xpos = np.arange(xlabels.shape[0])
     ylabels = np.array(hoods)
     ypos = np.arange(ylabels.shape[0])
@@ -66,17 +66,52 @@ if __name__ == '__main__':
     plt.show()
 
 
-    for iters in iterss:
-        for hood in hoods:
+    for i in range(4):
+        for h in range(4):
 
 
             for solver in [
                 # HillClimbing(pr, init, batch_size=inf),
                 # SimulatedAnnealing(pr, init, cooling_factor=.9),
-                TabuSearch(pr, init, max_iterations=iters, batch_size=hood)
+                TabuSearch(pr, init, max_iterations=iters[i], batch_size=hoods[h])
             ]:
                 t = time.time()
                 solution = solver()
-                print(pr.evaluate(solution), time.time() - t, "iters=", iters, "hood=",hood)
-                pr.show(solution)
+                print(pr.evaluate(solution), time.time() - t, "iters=", iters[i], "hood=",hoods[h])
+                result[i][h] = pr.evaluate(solution)
+                # pr.show(solution)
                 # input("press enter to exit")
+
+    result = np.array(result, dtype=np.int)
+
+    fig = plt.figure(figsize=(5, 5), dpi=150)
+    ax1 = fig.add_subplot(111, projection='3d')
+
+    xlabels = np.array(iters)
+    xpos = np.arange(xlabels.shape[0])
+    ylabels = np.array(hoods)
+    ypos = np.arange(ylabels.shape[0])
+
+    xposM, yposM = np.meshgrid(xpos, ypos, copy=False)
+
+    zpos = result
+    zpos = zpos.ravel()
+
+    dx = 0.5
+    dy = 0.5
+    dz = zpos
+
+    ax1.w_xaxis.set_ticks(xpos + dx / 2.)
+    ax1.w_xaxis.set_ticklabels(xlabels)
+
+    ax1.w_yaxis.set_ticks(ypos + dy / 2.)
+    ax1.w_yaxis.set_ticklabels(ylabels)
+
+    ax1.set_xlabel('Iterations')
+    ax1.set_ylabel('Hoods')
+    ax1.set_zlabel('Cost')
+
+    values = np.linspace(0.2, 1., xposM.ravel().shape[0])
+    colors = cm.rainbow(values)
+    ax1.bar3d(xposM.ravel(), yposM.ravel(), dz * 0, dx, dy, dz, color=colors)
+    plt.show()
