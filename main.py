@@ -17,8 +17,57 @@ if __name__ == '__main__':
     # pr = NQueens(n)
     # init = tuple(i for i in range(n))
 
-    for iters in [100, 200, 400, 500]:
-        for hood in [100, 200, 400, 500]:
+    import numpy as np
+    from mpl_toolkits.mplot3d import Axes3D
+    import matplotlib.pyplot as plt
+    from matplotlib import cm
+
+    iterss = [100, 200, 400, 500]
+    hoods = [100, 200, 400, 500]
+
+    result = [['122', '109', '2343', '220'],
+              ['15', '407', '37', '10'],
+              ['100', '100', '100', '100'],
+              ['113', '25', '19', '31'],
+              ]
+
+    result = np.array(result, dtype=np.int)
+
+    fig = plt.figure(figsize=(5, 5), dpi=150)
+    ax1 = fig.add_subplot(111, projection='3d')
+
+    xlabels = np.array(iterss)
+    xpos = np.arange(xlabels.shape[0])
+    ylabels = np.array(hoods)
+    ypos = np.arange(ylabels.shape[0])
+
+    xposM, yposM = np.meshgrid(xpos, ypos, copy=False)
+
+    zpos = result
+    zpos = zpos.ravel()
+
+    dx = 0.5
+    dy = 0.5
+    dz = zpos
+
+    ax1.w_xaxis.set_ticks(xpos + dx / 2.)
+    ax1.w_xaxis.set_ticklabels(xlabels)
+
+    ax1.w_yaxis.set_ticks(ypos + dy / 2.)
+    ax1.w_yaxis.set_ticklabels(ylabels)
+
+    ax1.set_xlabel('Iterations')
+    ax1.set_ylabel('Hoods')
+    ax1.set_zlabel('Cost')
+
+    values = np.linspace(0.2, 1., xposM.ravel().shape[0])
+    colors = cm.rainbow(values)
+    ax1.bar3d(xposM.ravel(), yposM.ravel(), dz * 0, dx, dy, dz, color=colors)
+    plt.show()
+
+
+    for iters in iterss:
+        for hood in hoods:
 
 
             for solver in [
