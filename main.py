@@ -66,6 +66,10 @@ if __name__ == '__main__':
     plt.show()
 
 
+    min_cost = 500
+    max_cost = 650
+    rng = max_cost - min_cost # range
+
     for i in range(4):
         for h in range(4):
 
@@ -78,6 +82,7 @@ if __name__ == '__main__':
                 t = time.time()
                 solution = solver()
                 print(pr.evaluate(solution), time.time() - t, "iters=", iters[i], "hood=",hoods[h])
+                # result[i][h] = time.time() - t
                 result[i][h] = pr.evaluate(solution)
                 # pr.show(solution)
                 # input("press enter to exit")
