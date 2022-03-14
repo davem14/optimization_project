@@ -19,4 +19,4 @@ class TabuSearch(Solver):
         return bool(state)
 
     def state_changed(self):
-        self._tabu_list.append(self._state)
+        self._tabu_list.append(self.state)

@@ -1,3 +1,4 @@
+from random import shuffle
 from typing import Tuple, Union
 import matplotlib.pyplot as plt
 import numpy as np
@@ -7,6 +8,7 @@ from problems.problem import Problem
 
 class NQueens(Problem):
     def __init__(self, n: int):
+        super().__init__()
         self.__n = n
 
     @property
@@ -21,6 +23,7 @@ class NQueens(Problem):
                 if new_j != j:
                     l_state[i] = new_j
                     neighbors.append(tuple(l_state))
+        shuffle(neighbors)
         return neighbors
 
     def evaluate(self, state: tuple):

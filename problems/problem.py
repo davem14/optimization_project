@@ -1,4 +1,6 @@
 class Problem:
+    def __init__(self):
+        self.optimal_val = 0
 
     def evaluate(self, state):
         raise NotImplementedError
